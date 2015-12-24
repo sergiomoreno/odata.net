@@ -24,6 +24,7 @@ namespace Microsoft.OData.Client.Design.T4
     using Microsoft.OData.Edm.Library;
     using Microsoft.OData.Edm.Values;
     using Microsoft.OData.Edm.Vocabularies.V1;
+    using Microsoft.OData.Edm.Vocabularies.Community.V1;
     using System.Text;
     using System.Net;
     
@@ -40,7 +41,7 @@ namespace Microsoft.OData.Client.Design.T4
         {
 
 /*
-OData Client T4 Template ver. 2.3.0
+OData Client T4 Template ver. 2.4.0
 Copyright (c) Microsoft Corporation
 All rights reserved. 
 MIT License
@@ -993,7 +994,10 @@ public class CodeGenerationContext
         ret.AddRange(getElementFromOneModelFunc(mainModel));
         foreach (var tmp in mainModel.ReferencedModels)
         {
-            if (tmp is EdmCoreModel || tmp.FindDeclaredValueTerm(CoreVocabularyConstants.OptimisticConcurrencyControl) != null || tmp.FindDeclaredValueTerm(CapabilitiesVocabularyConstants.ChangeTracking) != null)
+            if (tmp is EdmCoreModel ||
+                tmp.FindDeclaredValueTerm(CoreVocabularyConstants.OptimisticConcurrencyControl) != null ||
+                tmp.FindDeclaredValueTerm(CapabilitiesVocabularyConstants.ChangeTracking) != null ||
+                tmp.FindDeclaredValueTerm(AlternateKeysVocabularyConstants.AlternateKeys) != null)
             {
                 continue;
             }
@@ -1011,7 +1015,7 @@ public class CodeGenerationContext
 public abstract class ODataClientTemplate : TemplateBase
 {
     protected readonly string singleSuffix = "Single";
-    protected const string T4Version  = "2.3.0";
+    protected const string T4Version  = "2.4.0";
 
     /// <summary>
     /// The code generation context.
@@ -1126,6 +1130,7 @@ public abstract class ODataClientTemplate : TemplateBase
     internal abstract void WriteClassEndForEntityContainer();
     internal abstract void WriteSummaryCommentForStructuredType(string typeName);
     internal abstract void WriteKeyPropertiesCommentAndAttribute(IEnumerable<string> keyProperties, string keyString);
+    internal abstract void WriteEntityTypeAttribute();
     internal abstract void WriteEntitySetAttribute(string entitySetName);
     internal abstract void WriteEntityHasStreamAttribute();
     internal abstract void WriteClassStartForStructuredType(string abstractModifier, string typeName, string originalTypeName, string baseTypeName);
@@ -1722,7 +1727,7 @@ public abstract class ODataClientTemplate : TemplateBase
         this.WriteClassEndForStructuredType();
 
         this.WriteSummaryCommentForStructuredType(this.context.EnableNamingAlias ? Customization.CustomizeNaming(entityType.Name) : entityType.Name);
-        
+
         if (entityType.Key().Any())
         {
             IEnumerable<string> keyProperties = entityType.Key().Select(k => k.Name);
@@ -1730,7 +1735,11 @@ public abstract class ODataClientTemplate : TemplateBase
                 this.context.EnableNamingAlias ? keyProperties.Select(k => Customization.CustomizeNaming(k)) : keyProperties,
                 string.Join("\", \"", keyProperties));
         }
-        
+        else
+        {
+            this.WriteEntityTypeAttribute();
+        }
+
         if (this.context.UseDataServiceCollection)
         {
             List<IEdmNavigationSource> navigationSourceList;
@@ -3904,6 +3913,14 @@ this.Write("\")]\r\n");
 
     }
 
+    internal override void WriteEntityTypeAttribute()
+    {
+
+this.Write("    [global::Microsoft.OData.Client.EntityType()]\r\n");
+
+
+    }
+
     internal override void WriteEntitySetAttribute(string entitySetName)
     {
 
@@ -5880,6 +5897,14 @@ this.Write("    \'\'\'</KeyProperties>\r\n    <Global.Microsoft.OData.Client.Key
 this.Write(this.ToStringHelper.ToStringWithCulture(keyString));
 
 this.Write("\")>  _\r\n");
+
+
+    }
+
+    internal override void WriteEntityTypeAttribute()
+    {
+
+this.Write("    <Global.Microsoft.OData.Client.EntityType()>  _\r\n");
 
 
     }

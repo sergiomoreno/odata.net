@@ -104,7 +104,7 @@ namespace Microsoft.OData.Core.UriParser.Metadata
                 }
                 else if (result.Count > 1)
                 {
-                    throw new ODataException(Strings.UriParserMetadata_MultipleMatchingPropertiesFound(propertyName, type.ODataFullName()));
+                    throw new ODataException(Strings.UriParserMetadata_MultipleMatchingPropertiesFound(propertyName, type.FullTypeName()));
                 }
             }
 
@@ -210,7 +210,7 @@ namespace Microsoft.OData.Core.UriParser.Metadata
         /// Resolve operation's parameters.
         /// </summary>
         /// <param name="operation">Current operation for parameters.</param>
-        /// <param name="input">A dictionary the paramenter list.</param>
+        /// <param name="input">A dictionary the parameter list.</param>
         /// <returns>A dictionary containing resolved parameters.</returns>
         public virtual IDictionary<IEdmOperationParameter, SingleValueNode> ResolveOperationParameters(IEdmOperation operation, IDictionary<string, SingleValueNode> input)
         {
@@ -302,7 +302,6 @@ namespace Microsoft.OData.Core.UriParser.Metadata
                     throw ExceptionUtil.CreateSyntaxError();
                 }
 
-                //// Debug.Assert(property.Type.IsPrimitive() || property.Type.IsTypeDefinition(), "Keys can only be primitive or type definition");
                 object convertedValue = convertFunc(property.Type, valueText);
                 if (convertedValue == null)
                 {
@@ -316,7 +315,7 @@ namespace Microsoft.OData.Core.UriParser.Metadata
         }
 
         /// <summary>
-        /// Resolve an operatin parameter's name with case insensitive enabled
+        /// Resolve an operation parameter's name with case insensitive enabled
         /// </summary>
         /// <param name="operation">The operation.</param>
         /// <param name="identifier">Name for the parameter.</param>
@@ -329,7 +328,7 @@ namespace Microsoft.OData.Core.UriParser.Metadata
             {
                 throw new ODataException(Strings.UriParserMetadata_MultipleMatchingParametersFound(identifier));
             }
-            
+
             if (list.Count == 1)
             {
                 return list.Single();

@@ -163,7 +163,10 @@ namespace Microsoft.Test.OData.Services.ODataWCFService
             var productReviewSet = new EdmEntitySet(defaultContainer, "ProductReviews", productReviewType);
             defaultContainer.AddElement(productReviewSet);
 
-            var orderType = new EdmEntityType(ns, "Order");
+            var abstractType = new EdmEntityType(ns, "AbstractEntity", null, true, false);
+            model.AddElement(abstractType);
+
+            var orderType = new EdmEntityType(ns, "Order", abstractType);
             var orderIdProperty = new EdmStructuralProperty(orderType, "OrderID", EdmCoreModel.Instance.GetInt32(false));
             orderType.AddProperty(orderIdProperty);
             orderType.AddKeys(orderIdProperty);
@@ -177,7 +180,15 @@ namespace Microsoft.Test.OData.Services.ODataWCFService
             var orderSet = new EdmEntitySet(defaultContainer, "Orders", orderType);
             defaultContainer.AddElement(orderSet);
 
-            var orderDetailType = new EdmEntityType(ns, "OrderDetail");
+            var calendarType = new EdmEntityType(ns, "Calendar", abstractType);
+            var calendarIdProperty = new EdmStructuralProperty(calendarType, "Day", EdmCoreModel.Instance.GetDate(false));
+            calendarType.AddProperty(calendarIdProperty);
+            calendarType.AddKeys(calendarIdProperty);
+            model.AddElement(calendarType);
+            var calendarSet = new EdmEntitySet(defaultContainer, "Calendars", calendarType);
+            defaultContainer.AddElement(calendarSet);
+
+            var orderDetailType = new EdmEntityType(ns, "OrderDetail", abstractType);
             var orderId = new EdmStructuralProperty(orderDetailType, "OrderID", EdmCoreModel.Instance.GetInt32(false));
             orderDetailType.AddProperty(orderId);
             orderDetailType.AddKeys(orderId);
@@ -523,10 +534,17 @@ namespace Microsoft.Test.OData.Services.ODataWCFService
             getRelatedProductFunction.AddParameter("productDetail", new EdmEntityTypeReference(productDetailType, false));
             model.AddElement(getRelatedProductFunction);
 
+            //Bound Function : Bound to Entity, Return Collection of Abstract Entity
+            var getOrderAndOrderDetails = new EdmFunction(ns, "getOrderAndOrderDetails",
+                new EdmCollectionTypeReference(new EdmCollectionType(new EdmEntityTypeReference(abstractType, false))),
+                true, new EdmPathExpression("customer/Orders"), true);
+            getOrderAndOrderDetails.AddParameter("customer", new EdmEntityTypeReference(customerType, false));
+            model.AddElement(getOrderAndOrderDetails);
+
             //Bound Function : Bound to CollectionOfEntity, Return Entity
             var getSeniorEmployees = new EdmFunction(ns, "GetSeniorEmployees",
                 new EdmEntityTypeReference(employeeType, true),
-                true, new EdmPathExpression("People"), true);
+                true, new EdmPathExpression("employees"), true);
             getSeniorEmployees.AddParameter("employees", new EdmCollectionTypeReference(new EdmCollectionType(new EdmEntityTypeReference(employeeType, false))));
             model.AddElement(getSeniorEmployees);
 

@@ -151,7 +151,6 @@ namespace Microsoft.OData.Core
 
             // If the Preference-Applied header on the response message contains an annotation filter, we set the filter
             // to the writer settings so that we would only write annotations that satisfy the filter.
-            Debug.Assert(this.settings.ShouldIncludeAnnotation == null, "this.settings.ShouldIncludeAnnotation == null");
             string annotationFilter = responseMessage.PreferenceAppliedHeader().AnnotationFilter;
             if (!string.IsNullOrEmpty(annotationFilter))
             {
@@ -878,7 +877,7 @@ namespace Microsoft.OData.Core
         {
             if (itemTypeReference != null && !(itemTypeReference.IsPrimitive() || itemTypeReference.IsComplex() || itemTypeReference.IsEnum() || itemTypeReference.IsTypeDefinition()))
             {
-                throw new ODataException(Strings.ODataMessageWriter_NonCollectionType(itemTypeReference.ODataFullName()));
+                throw new ODataException(Strings.ODataMessageWriter_NonCollectionType(itemTypeReference.FullName()));
             }
 
             this.VerifyWriterNotDisposedAndNotUsed();

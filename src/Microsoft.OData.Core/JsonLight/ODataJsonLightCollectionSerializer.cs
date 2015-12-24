@@ -50,6 +50,20 @@ namespace Microsoft.OData.Core.JsonLight
                 // "@odata.context":...
                 this.WriteContextUriProperty(ODataPayloadKind.Collection, () => ODataContextUrlInfo.Create(collectionStart.SerializationInfo, itemTypeReference));
 
+                // "@odata.count":...
+                if (collectionStart.Count.HasValue)
+                {
+                    this.ODataAnnotationWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataCount);
+                    this.JsonWriter.WriteValue(collectionStart.Count.Value);
+                }
+
+                // "@odata.nextlink":...
+                if (collectionStart.NextPageLink != null)
+                {
+                    this.ODataAnnotationWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataNextLink);
+                    this.JsonWriter.WriteValue(this.UriToString(collectionStart.NextPageLink));
+                }
+
                 // "value":
                 this.JsonWriter.WriteValuePropertyName();
             }

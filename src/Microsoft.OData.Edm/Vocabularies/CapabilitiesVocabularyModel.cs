@@ -14,8 +14,6 @@ using Microsoft.OData.Edm.Validation;
 
 namespace Microsoft.OData.Edm.Vocabularies.V1
 {
-    using System.Diagnostics.CodeAnalysis;
-
     /// <summary>
     /// Representing Capabilities Vocabulary Model.
     /// </summary>
@@ -36,13 +34,13 @@ namespace Microsoft.OData.Edm.Vocabularies.V1
         /// </summary>
         static CapabilitiesVocabularyModel()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = typeof(CapabilitiesVocabularyModel).GetAssembly();
 
             using (Stream stream = assembly.GetManifestResourceStream("CapabilitiesVocabularies.xml"))
             {
                 IEnumerable<EdmError> errors;
                 Debug.Assert(stream != null, "CapabilitiesVocabularies.xml: stream!=null");
-                CsdlReader.TryParse(new[] { XmlReader.Create(stream) }, out Instance, out errors);
+                EdmxReader.TryParse(XmlReader.Create(stream), out Instance, out errors);
             }
 
             ChangeTrackingTerm = Instance.FindDeclaredValueTerm(CapabilitiesVocabularyConstants.ChangeTracking);

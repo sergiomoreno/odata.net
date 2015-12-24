@@ -117,18 +117,22 @@ namespace Microsoft.OData.Edm.Vocabularies.V1
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Resolver is immutable")]
         public static readonly IEdmValueTerm IsMediaTypeTerm;
 
+        internal static bool IsInitializing;
+
         /// <summary>
         /// Parse Core Vocabulary Model from CoreVocabularies.xml
         /// </summary>
         static CoreVocabularyModel()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            IsInitializing = true;
+            Assembly assembly = typeof(CoreVocabularyModel).GetAssembly();
 
             using (Stream stream = assembly.GetManifestResourceStream("CoreVocabularies.xml"))
             {
                 IEnumerable<EdmError> errors;
                 Debug.Assert(stream != null, "CoreVocabularies.xml: stream!=null");
                 CsdlReader.TryParse(new[] { XmlReader.Create(stream) }, out Instance, out errors);
+                IsInitializing = false;
             }
 
             AcceptableMediaTypesTerm = Instance.FindDeclaredValueTerm(CoreVocabularyConstants.AcceptableMediaTypes);

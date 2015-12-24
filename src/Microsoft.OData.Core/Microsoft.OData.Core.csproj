@@ -158,6 +158,7 @@
     <Compile Include="JsonLight\JsonFullMetadataTypeNameOracle.cs" />
     <Compile Include="JsonLight\JsonLightConstants.cs" />
     <Compile Include="JsonLight\JsonLightMetadataLevel.cs" />
+    <Compile Include="JsonLight\JsonLightODataAnnotationWriter.cs" />
     <Compile Include="JsonLight\JsonLightTypeNameOracle.cs" />
     <Compile Include="JsonLight\JsonMinimalMetadataLevel.cs" />
     <Compile Include="JsonLight\JsonMinimalMetadataTypeNameOracle.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Json\ODataJsonReaderCoreUtils.cs" />
     <Compile Include="Json\ODataJsonWriterUtils.cs" />
     <Compile Include="Json\TextWriterWrapper.cs" />
+    <Compile Include="ODataErrorDetail.cs" />
     <Compile Include="ODataMediaType.cs" />
     <Compile Include="ODataMediaTypeResolver.cs" />
     <Compile Include="MediaTypeUtils.cs" />
@@ -332,6 +334,7 @@
     <Compile Include="ODataPayloadKind.cs" />
     <Compile Include="ODataPayloadKindDetectionInfo.cs" />
     <Compile Include="ODataPayloadKindDetectionResult.cs" />
+    <Compile Include="ODataPayloadValueConverter.cs" />
     <Compile Include="ODataPreferenceHeader.cs" />
     <Compile Include="ODataPrimitiveValue.cs" />
     <Compile Include="ODataProperty.cs" />
@@ -424,9 +427,9 @@
     <Compile Include="UriParser\InternalErrorCodes.cs" />
     <Compile Include="UriParser\KeyPropertyValue.cs" />
     <Compile Include="UriParser\LiteralUtils.cs" />
+    <Compile Include="UriParser\Metadata\AlternateKeysODataUriResolver.cs" />
     <Compile Include="UriParser\Metadata\StringAsEnumResolver.cs" />
     <Compile Include="UriParser\Metadata\ODataUriResolver.cs" />
-    <Compile Include="UriParser\Metadata\ODataUriParserContext.cs" />
     <Compile Include="UriParser\Metadata\UnqualifiedODataUriResolver.cs" />
     <Compile Include="UriParser\Metadata\UriEdmHelpers.cs" />
     <Compile Include="UriParser\NamedValue.cs" />
@@ -491,6 +494,7 @@
     <Compile Include="UriParser\SemanticAst\EntitySetNode.cs" />
     <Compile Include="UriParser\SemanticAst\EntitySetSegment.cs" />
     <Compile Include="UriParser\SemanticAst\ExpandedNavigationSelectItem.cs" />
+    <Compile Include="UriParser\SemanticAst\ExpandedReferenceSelectItem.cs" />
     <Compile Include="UriParser\SemanticAst\FilterClause.cs" />
     <Compile Include="UriParser\SemanticAst\KeyLookupNode.cs" />
     <Compile Include="UriParser\SemanticAst\KeySegment.cs" />
@@ -517,6 +521,7 @@
     <Compile Include="UriParser\SemanticAst\ParameterAliasNode.cs" />
     <Compile Include="UriParser\SemanticAst\ParameterAliasValueAccessor.cs" />
     <Compile Include="UriParser\SemanticAst\PathSelectItem.cs" />
+    <Compile Include="UriParser\SemanticAst\PathTemplateSegment.cs" />
     <Compile Include="UriParser\SemanticAst\PropertySegment.cs" />
     <Compile Include="UriParser\SemanticAst\QueryNode.cs" />
     <Compile Include="UriParser\SemanticAst\RangeVariable.cs" />

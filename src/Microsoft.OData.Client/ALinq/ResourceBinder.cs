@@ -98,7 +98,7 @@ namespace Microsoft.OData.Client
                     return true;
                 }
 
-                if (re.Source != null)
+                if (re.Source != null && !re.IsOperationInvocation)
                 {
                     ResourceSetExpression rse = re.Source as ResourceSetExpression;
                     if ((rse != null) && !rse.HasKeyPredicate)
@@ -239,7 +239,7 @@ namespace Microsoft.OData.Client
                 List<Expression> clauses = predicates.Value;
                 List<Expression> nonKeyPredicates;
                 List<Expression> keyPredicates = ExtractKeyPredicate(target, clauses, model, out nonKeyPredicates);
-                if (keyPredicates == null || 
+                if (keyPredicates == null ||
                     (nonKeyPredicates != null && nonKeyPredicates.Count > 0))
                 {
                     // UNSUPPORTED: Only key predicates may be applied to earlier path components
@@ -488,11 +488,7 @@ namespace Microsoft.OData.Client
                     return false;
                 }
 
-#if ASTORIA_LIGHT
-                resultLambda = ExpressionHelpers.CreateLambda(resultLambda.Body, new ParameterExpression[] { resultLambda.Parameters[1] });
-#else
                 resultLambda = Expression.Lambda(resultLambda.Body, new ParameterExpression[] { resultLambda.Parameters[1] });
-#endif
 
                 // Ideally, the projection analyzer would return true/false and an
                 // exception with the explanation of the results if it failed;
@@ -738,11 +734,8 @@ namespace Microsoft.OData.Client
             else if (PatternRules.MatchMemberInitExpressionWithDefaultConstructor(sourceResource, selector) || PatternRules.MatchNewExpression(sourceResource, selector))
             {
                 // Projection analyzer will throw if it selector references first ParamExpression, so this is safe to do here.
-#if ASTORIA_LIGHT
-                selector = ExpressionHelpers.CreateLambda(selector.Body, new ParameterExpression[] { selector.Parameters[1] }); 
-#else
                 selector = Expression.Lambda(selector.Body, new ParameterExpression[] { selector.Parameters[1] });
-#endif
+
                 if (!ProjectionAnalyzer.Analyze(selector, sourceResource, false, context))
                 {
                     result = selectManyCall;
@@ -803,8 +796,6 @@ namespace Microsoft.OData.Client
             return input;
         }
 
-#if !ASTORIA_LIGHT      // Silverlight doesn't support synchronous operators.
-
         /// <summary>Ensures that there's a limit on the cardinality of a query.</summary>
         /// <param name="mce"><see cref="MethodCallExpression"/> for the method to limit First/Single(OrDefault).</param>
         /// <param name="maxCardinality">Maximum cardinality to allow.</param>
@@ -844,8 +835,6 @@ namespace Microsoft.OData.Client
 
             return mce;
         }
-
-#endif
 
         private static Expression AnalyzeCast(MethodCallExpression mce)
         {
@@ -990,7 +979,7 @@ namespace Microsoft.OData.Client
             {
                 obj = StripConvert(mce.Object, mce.Method.ReturnType);
             }
-            
+
             ResourceExpression re = obj as ResourceExpression;
             if (re == null)
             {
@@ -1267,7 +1256,7 @@ namespace Microsoft.OData.Client
                 // Debug.Assert(!rse.HasQueryOptions, "!rse.HasQueryOptions");
 
                 // since we could be adding query options to the root, create a new one which can be mutable.
-                return QueryableResourceExpression.CreateNavigationResourceExpression(rse.NodeType, rse.Type, rse.Source, rse.MemberExpression, rse.ResourceType, null /*expandPaths*/, CountOption.None, null /*customQueryOptions*/, null /*projection*/, rse.ResourceTypeAs, rse.UriVersion);
+                return QueryableResourceExpression.CreateNavigationResourceExpression(rse.NodeType, rse.Type, rse.Source, rse.MemberExpression, rse.ResourceType, null /*expandPaths*/, CountOption.None, null /*customQueryOptions*/, null /*projection*/, rse.ResourceTypeAs, rse.UriVersion, rse.OperationName, rse.OperationParameters);
             }
             return rse;
         }
@@ -1463,14 +1452,12 @@ namespace Microsoft.OData.Client
                             return ApplyOrdering(mce, /*descending=*/true, /*thenBy=*/false, this.Model);
                         case SequenceMethod.ThenByDescending:
                             return ApplyOrdering(mce, /*descending=*/true, /*thenBy=*/true, this.Model);
-#if !ASTORIA_LIGHT      // Silverlight doesn't support synchronous operators.
                         case SequenceMethod.First:
                         case SequenceMethod.FirstOrDefault:
                             return LimitCardinality(mce, 1);
                         case SequenceMethod.Single:
                         case SequenceMethod.SingleOrDefault:
                             return LimitCardinality(mce, 2);
-#endif
                         case SequenceMethod.Cast:
                             return AnalyzeCast(mce);
                         case SequenceMethod.OfType:
@@ -1499,7 +1486,7 @@ namespace Microsoft.OData.Client
                     {
                         t = typeof(DataServiceQuery<>).MakeGenericType(mce.Method.GetParameters()[0].ParameterType.GetGenericArguments()[0]);
                     }
-                    
+
                     if (mce.Method.Name == ExpandMethodName && mce.Method.DeclaringType == t)
                     {
                         return AnalyzeExpand(mce, this.context);
@@ -1654,7 +1641,7 @@ namespace Microsoft.OData.Client
                     if (MatchNonPrivateReadableProperty(me, out pi, out boundTarget))
                     {
                         string propertyName = ClientTypeUtil.GetServerDefinedName(pi);
-                        
+
                         NonSystemToken newPropertyToAdd = new NonSystemToken(propertyName, null, null);
                         if (propertyPath == null)
                         {
@@ -1673,7 +1660,7 @@ namespace Microsoft.OData.Client
                             NonSystemToken subPropertyToAdd = new NonSystemToken(UriHelper.GetEntityTypeNameForUriAndValidateMaxProtocolVersion(convertedType, context, ref uriVersion), null, null);
                             subPropertyToAdd.SetNextToken(propertyPath);
                             propertyPath = subPropertyToAdd;
-                       }
+                        }
                     }
                     else
                     {
@@ -1821,7 +1808,7 @@ namespace Microsoft.OData.Client
                 // Call Order: Do not short circuit the get key properties call
                 // in V1 we will always call this for memberaccess expr, and thus always create a client type.
                 // There are certain types that we don't support and this could be throwing.
-#if WINRT
+#if DNXCORE50
                 Type resourceType = pi.DeclaringType;
 #else
                 Type resourceType = pi.ReflectedType;
@@ -2873,7 +2860,7 @@ namespace Microsoft.OData.Client
                         {
                             foundInstance = unaryInstance.Operand;
                         }
-#if WINRT
+#if DNXCORE50
                         Type resourceType = propertyMember.Member.DeclaringType;
 #else
                         Type resourceType = propertyMember.Member.ReflectedType;

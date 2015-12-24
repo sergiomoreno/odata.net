@@ -79,9 +79,13 @@ namespace Microsoft.OData.Core
         /// <param name="propertyName">The name of the property to validate.</param>
         /// <param name="owningStructuredType">The owning type of the property with name <paramref name="propertyName"/> 
         /// or null if no metadata is available.</param>
+        /// <param name="throwOnMissingProperty">Whether throw exception on missing property.</param>
         /// <returns>The <see cref="IEdmProperty"/> instance representing the property with name <paramref name="propertyName"/> 
         /// or null if no metadata is available.</returns>
-        internal static IEdmProperty ValidatePropertyDefined(string propertyName, IEdmStructuredType owningStructuredType)
+        internal static IEdmProperty ValidatePropertyDefined(
+            string propertyName,
+            IEdmStructuredType owningStructuredType,
+            bool throwOnMissingProperty = true)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName), "!string.IsNullOrEmpty(propertyName)");
 
@@ -93,9 +97,9 @@ namespace Microsoft.OData.Core
             IEdmProperty property = owningStructuredType.FindProperty(propertyName);
 
             // verify that the property is declared if the type is not an open type.
-            if (!owningStructuredType.IsOpen && property == null)
+            if (throwOnMissingProperty && !owningStructuredType.IsOpen && property == null)
             {
-                throw new ODataException(Strings.ValidationUtils_PropertyDoesNotExistOnType(propertyName, owningStructuredType.ODataFullName()));
+                throw new ODataException(Strings.ValidationUtils_PropertyDoesNotExistOnType(propertyName, owningStructuredType.FullTypeName()));
             }
 
             return property;
@@ -123,13 +127,13 @@ namespace Microsoft.OData.Core
             {
                 // We don't support open navigation properties
                 Debug.Assert(owningEntityType.IsOpen, "We should have already failed on non-existing property on a closed type.");
-                throw new ODataException(Strings.ValidationUtils_OpenNavigationProperty(propertyName, owningEntityType.ODataFullName()));
+                throw new ODataException(Strings.ValidationUtils_OpenNavigationProperty(propertyName, owningEntityType.FullTypeName()));
             }
 
             if (property.PropertyKind != EdmPropertyKind.Navigation)
             {
                 // The property must be a navigation property
-                throw new ODataException(Strings.ValidationUtils_NavigationPropertyExpected(propertyName, owningEntityType.ODataFullName(), property.PropertyKind.ToString()));
+                throw new ODataException(Strings.ValidationUtils_NavigationPropertyExpected(propertyName, owningEntityType.FullTypeName(), property.PropertyKind.ToString()));
             }
 
             return (IEdmNavigationProperty)property;
@@ -152,7 +156,7 @@ namespace Microsoft.OData.Core
             // Make sure the entity types are compatible
             if (!parentNavigationPropertyType.IsAssignableFrom(entryEntityType))
             {
-                throw new ODataException(Strings.WriterValidationUtils_EntryTypeInExpandedLinkNotCompatibleWithNavigationPropertyType(entryEntityType.ODataFullName(), parentNavigationPropertyType.ODataFullName()));
+                throw new ODataException(Strings.WriterValidationUtils_EntryTypeInExpandedLinkNotCompatibleWithNavigationPropertyType(entryEntityType.FullTypeName(), parentNavigationPropertyType.FullTypeName()));
             }
         }
 
@@ -470,12 +474,12 @@ namespace Microsoft.OData.Core
                     // See the description of ODataWriterBehavior.AllowNullValuesForNonNullablePrimitiveTypes for more details.
                     if (!expectedPropertyTypeReference.IsNullable && !writerBehavior.AllowNullValuesForNonNullablePrimitiveTypes)
                     {
-                        throw new ODataException(Strings.WriterValidationUtils_NonNullablePropertiesMustNotHaveNullValue(propertyName, expectedPropertyTypeReference.ODataFullName()));
+                        throw new ODataException(Strings.WriterValidationUtils_NonNullablePropertiesMustNotHaveNullValue(propertyName, expectedPropertyTypeReference.FullName()));
                     }
                 }
                 else if (expectedPropertyTypeReference.IsODataEnumTypeKind() && !expectedPropertyTypeReference.IsNullable)
                 {
-                    throw new ODataException(Strings.WriterValidationUtils_NonNullablePropertiesMustNotHaveNullValue(propertyName, expectedPropertyTypeReference.ODataFullName()));
+                    throw new ODataException(Strings.WriterValidationUtils_NonNullablePropertiesMustNotHaveNullValue(propertyName, expectedPropertyTypeReference.FullName()));
                 }
                 else if (expectedPropertyTypeReference.IsStream())
                 {
@@ -488,7 +492,7 @@ namespace Microsoft.OData.Core
                         IEdmComplexTypeReference complexTypeReference = expectedPropertyTypeReference.AsComplex();
                         if (!complexTypeReference.IsNullable)
                         {
-                            throw new ODataException(Strings.WriterValidationUtils_NonNullablePropertiesMustNotHaveNullValue(propertyName, expectedPropertyTypeReference.ODataFullName()));
+                            throw new ODataException(Strings.WriterValidationUtils_NonNullablePropertiesMustNotHaveNullValue(propertyName, expectedPropertyTypeReference.FullName()));
                         }
                     }
                 }

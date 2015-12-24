@@ -74,6 +74,7 @@ namespace Microsoft.OData.Client
             this.Query = query;
             this.Context = query.Context;
             this.IsComposable = isComposable;
+            this.isFunction = query.IsFunction;
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Microsoft.OData.Client
             return new DataServiceQuerySingle<T>(this.CreateFunctionQuery<T>(functionName, isComposable, parameters), isComposable);
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
         /// <summary>
         /// Executes the query and returns the result.
         /// </summary>

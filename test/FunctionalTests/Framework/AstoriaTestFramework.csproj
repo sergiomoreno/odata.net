@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -24,6 +22,9 @@
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
   </PropertyGroup>
   <Import Project="..\Build.props" />
+  <PropertyGroup>
+    <DefineConstants Condition=" '$(VisualStudioVersion)' == '14.0' ">$(DefineConstants);VS2015</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CustomMarshalers" />
     <Reference Include="Microsoft.JScript" />

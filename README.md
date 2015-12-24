@@ -1,6 +1,6 @@
 # OData .NET Libraries
 ## Introduction
-The OData .NET Libraries (or OData.NET, for short) project includes the implementation of the OData protocol on the .NET platform. It is a fully open sourced project maintained by the OData team of Microsoft.
+The [OData .NET Libraries](http://odata.github.io/odata.net) (or OData.NET, for short) project includes the implementation of the OData protocol on the .NET platform. It is a fully open sourced project maintained by the OData team of Microsoft.
 
 OData stands for the Open Data Protocol. It was initiated by Microsoft and is now an OASIS standard. OData enables the creation and consumption of REST APIs, which allow resources, identified using URLs and defined in a data model, to be published and edited by Web clients using simple HTTP messages.
 
@@ -10,7 +10,7 @@ For more information about OData, please refer to the following resources:
  - [OASIS Open Data Protocol (OData) Technical Committee](https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=odata)
 
 ## Project structure
-The project currently has three branches: master, ODATAV3, and WCFDSV4. 
+The project currently has a few branches: master, gh-pages, ODATAV3, and WCFDSV4. 
 
 ### Master branch
 The master branch includes the .NET libraries for OData V4 only that are now most actively iterated and maintained by the OData team. It has the following libraries: 
@@ -27,6 +27,9 @@ The master branch includes the .NET libraries for OData V4 only that are now mos
 For these libraries, we accept bug reports, feature requirements and pull requests. The corresponding fixes and implementations will be included into every new release.
 
 The release of the component binaries is carried out monthly through [Nuget](http://www.nuget.org/).
+
+### gh-pages
+The [gh-pages](https://github.com/OData/odata.net/tree/gh-pages) branch contains documentation source for OData v4 Lib - tutorials, guides, etc.  The documention source is in Markdown format.
 
 ### ODATAV3 (maintenance mode)
 
@@ -61,9 +64,34 @@ Here is the usage of each solution file:
 
 ### Testing
 
-Each solution contains some test projects. Please open it, build it and run all the tests in the test explorer. For running tests within Microsoft.OData.Full.sln and Microsoft.OData.E2E.sln, please open the solution in *Administrator* otherwise you will not have the permission to start the test services in IIS express.
+Each solution contains some test projects. Please open it, build it and run all the tests in the test explorer. For running tests within Microsoft.OData.Full.sln and Microsoft.OData.E2E.sln, you need to open the solution as *Administrator* so that the test services can be started properly. You must have either SQL Express 2008+ (in the case of VS2013) or LocalDB v12.0+ (in the case of VS2015) installed because a test database is needed and it will be automatically initialized by the test code if it doesn't exist.
 
-**One-click build and test script will be available in the future.*
+#### One-click build and test script
+
+In an elevated command prompt "Run as administrator", cd to the root folder:
+```
+build.cmd
+```
+The build and test will take about 15 minutes. Here are some other usages:
+
+ - `build.cmd Nightly`. Build and run all nightly test suites.
+ - `build.cmd Rolling`. Build and run all rolling test suites (with less legacy tests thus faster).
+ - `build.cmd SkipStrongName`. Configure strong name skip of OData libraries on your machine and build (no test run).
+ - `build.cmd DisableSkipStrongName`. Disable strong name skip of OData libraries on your machine and build (no test run).
+ 
+### Nightly Builds
+
+We keep uploading the daily nightly signed NuGet packages for ODataLib/EdmLib/ClientLib/SpatialLib to our MyGet feed: https://www.myget.org/F/odlnightly.
+
+You can query the latest nightly NuGet packages using the following MAGIC OData query:
+https://www.myget.org/F/odlnightly/Packages?$select=Id,Version&$orderby=Version%20desc&$top=4&$format=application/json
+
+### Documentation
+Please visit the [ODataLib pages](http://odata.github.io/odata.net).
+
+### Debug
+
+Please refer to the [How to debug](http://odata.github.io/WebApi/10-01-debug-webapi-source).
 
 ## Community
 ### Contribution

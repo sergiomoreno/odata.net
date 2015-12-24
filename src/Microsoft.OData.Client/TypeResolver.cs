@@ -58,8 +58,26 @@ namespace Microsoft.OData.Client
             Debug.Assert(resolveNameFromType != null, "resolveNameFromType != null");
             this.resolveTypeFromName = resolveTypeFromName;
             this.resolveNameFromType = resolveNameFromType;
-            this.clientEdmModel = model;
             this.serviceModel = serviceModel;
+            this.clientEdmModel = model;
+
+            if (serviceModel != null && clientEdmModel != null)
+            {
+                if (clientEdmModel.EdmStructuredSchemaElements == null)
+                {
+                    clientEdmModel.EdmStructuredSchemaElements = serviceModel.SchemaElements.Where(se => se is IEdmStructuredType).ToList();
+                }
+                else
+                {
+                    foreach (var element in serviceModel.SchemaElements.Where(se => se is IEdmStructuredType))
+                    {
+                        if (!clientEdmModel.EdmStructuredSchemaElements.Contains(element))
+                        {
+                            clientEdmModel.EdmStructuredSchemaElements.Add(element);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -421,7 +439,7 @@ namespace Microsoft.OData.Client
                 if (payloadType == null)
                 {
                     // if the type resolution method returns null or the ResolveType property was not set
-#if !ASTORIA_LIGHT && !PORTABLELIB
+#if !PORTABLELIB
                     payloadType = ClientTypeCache.ResolveFromName(wireName, expectedType);
 #else
                     payloadType = ClientTypeCache.ResolveFromName(wireName, expectedType, this.GetType());

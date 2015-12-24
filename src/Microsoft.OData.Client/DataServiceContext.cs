@@ -49,10 +49,17 @@ namespace Microsoft.OData.Client
         private readonly ClientEdmModel model;
 
         /// <summary> Internal instance annotations in current context </summary>
-        private readonly IDictionary<object, IDictionary<string, object>> instanceAnnotations = new Dictionary<object, IDictionary<string, object>>(EqualityComparer<object>.Default);
+        private readonly WeakDictionary<object, IDictionary<string, object>> instanceAnnotations = new WeakDictionary<object, IDictionary<string, object>>(InstanceAnnotationDictWeakKeyComparer.Default)
+        {
+            RemoveCollectedEntriesRules = new List<Func<object, bool>>
+            {
+                InstanceAnnotationDictWeakKeyComparer.Default.RemoveRule
+            },
+            CreateWeakKey = InstanceAnnotationDictWeakKeyComparer.Default.CreateKey
+        };
 
         /// <summary>metadata annotations for currenct context</summary>
-        private readonly IDictionary<object, IList<IEdmValueAnnotation>> metadataAnnotationsDictionary = new Dictionary<object, IList<IEdmValueAnnotation>>(EqualityComparer<object>.Default);
+        private readonly WeakDictionary<object, IList<IEdmValueAnnotation>> metadataAnnotationsDictionary = new WeakDictionary<object, IList<IEdmValueAnnotation>>(EqualityComparer<object>.Default);
 
         /// <summary>The tracker for user-specified format information.</summary>
         private DataServiceClientFormat formatTracker;
@@ -82,7 +89,7 @@ namespace Microsoft.OData.Client
         /// <summary>resolve typename from a type</summary>
         private Func<string, Type> resolveType;
 
-#if !ASTORIA_LIGHT  && !PORTABLELIB // Timeout not available
+#if !PORTABLELIB // Timeout not available
         /// <summary>time-out value in seconds, 0 for default</summary>
         private int timeout;
 #endif
@@ -221,13 +228,8 @@ namespace Microsoft.OData.Client
             this.httpStack = HttpStack.Auto;
             this.UsingDataServiceCollection = false;
             this.EnableAtom = false;
-
-#if ASTORIA_LIGHT
-            this.UsePostTunneling = true;
-            this.UseDefaultCredentials = true;
-#else
             this.UsePostTunneling = false;
-#endif
+
             // Need to use the same defaults when running sl in portable lib as when running in SL normally.
 #if PORTABLELIB
             if (HttpWebRequestMessage.IsRunningOnSilverlight)
@@ -467,7 +469,7 @@ namespace Microsoft.OData.Client
             set { this.resolveType = value; }
         }
 
-#if !ASTORIA_LIGHT  && !PORTABLELIB // Timeout not available
+#if !PORTABLELIB // Timeout not available
         /// <summary>Gets or sets the time-out option (in seconds) that is used for the underlying HTTP request to the data service.</summary>
         /// <returns>An integer that indicates the time interval (in seconds) before time-out of a service request.</returns>
         /// <remarks>
@@ -592,7 +594,9 @@ namespace Microsoft.OData.Client
             }
         }
 
-        /// <summary>Returns the instance of entity tracker which tracks all the entities and links tracked by the context.</summary>
+        /// <summary>
+        /// Returns the instance of entity tracker which tracks all the entities and links tracked by the context.
+        /// </summary>
         public EntityTracker EntityTracker
         {
             get
@@ -607,22 +611,24 @@ namespace Microsoft.OData.Client
         }
 
         /// <summary>
+        /// Disable instance annotation to be materialized.
+        /// </summary>
+        public bool DisableInstanceAnnotationMaterialization { get; set; }
+
+        /// <summary>
+        /// Whether OData Simplified is enabled.
+        /// </summary>
+        public bool ODataSimplified { get; set; }
+
+        /// <summary>
         /// Gets or sets a System.Boolean value that controls whether default credentials are sent with requests.
         /// </summary>
-        internal bool UseDefaultCredentials
-        {
-            get;
-            set;
-        }
+        internal bool UseDefaultCredentials { get; set; }
 
         /// <summary>Gets a value that indicates the type of HTTP implementation to use when accessing the data service in Silverlight.</summary>
         /// <returns>A <see cref="T:Microsoft.OData.Client.HttpStack" /> value that indicates the HTTP implementation to use when accessing the data service.</returns>
         /// <remarks>Default value is HttpStack.Auto</remarks>
-#if ASTORIA_LIGHT && !PORTABLELIB // Multiple HTTP stacks in Silverlight
-        public HttpStack HttpStack
-#else
         internal HttpStack HttpStack
-#endif
         {
             get { return this.httpStack; }
             set { this.httpStack = Util.CheckEnumerationValue(value, "HttpStack"); }
@@ -686,7 +692,7 @@ namespace Microsoft.OData.Client
         internal bool EnableAtom { get; set; }
 
         /// <summary>The instance annotations in current context</summary>
-        internal IDictionary<object, IDictionary<string, object>> InstanceAnnotations
+        internal WeakDictionary<object, IDictionary<string, object>> InstanceAnnotations
         {
             get
             {
@@ -697,7 +703,7 @@ namespace Microsoft.OData.Client
         /// <summary>
         /// Gets the MetadataAnnotationsDictionary
         /// </summary>
-        internal IDictionary<object, IList<IEdmValueAnnotation>> MetadataAnnotationsDictionary
+        internal WeakDictionary<object, IList<IEdmValueAnnotation>> MetadataAnnotationsDictionary
         {
             get
             {
@@ -1002,7 +1008,7 @@ namespace Microsoft.OData.Client
         {
             Dictionary<string, string> operationParameters = this.SerializeOperationParameters(parameters);
             ResourceSetExpression rse = new ResourceSetExpression(typeof(IOrderedQueryable<T>), null, Expression.Constant(path), typeof(T), null, CountOption.None, null, null, null, null, functionName, operationParameters, false);
-            return new DataServiceQuery<T>.DataServiceOrderedQuery(rse, new DataServiceQueryProvider(this));
+            return new DataServiceQuery<T>.DataServiceOrderedQuery(rse, new DataServiceQueryProvider(this), isComposable);
         }
 
         /// <summary>Creates a data service single query for function which return single data.</summary>
@@ -1130,7 +1136,7 @@ namespace Microsoft.OData.Client
             return response.LoadProperty();
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
         /// <summary>Loads deferred content for a specified property from the data service.Not supported by the WCF Data Services 5.0 client for Silverlight.</summary>
         /// <returns>The response to the load operation.</returns>
         /// <param name="entity">The entity that contains the property to load.</param>
@@ -1328,7 +1334,7 @@ namespace Microsoft.OData.Client
             return result.End();
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB
+#if !PORTABLELIB
         /// <summary>Gets the binary data stream that belongs to the specified entity.</summary>
         /// <returns>An instance of <see cref="T:Microsoft.OData.Client.DataServiceStreamResponse" /> that represents the response.</returns>
         /// <param name="entity">The entity that has the binary stream to retrieve. </param>
@@ -1544,7 +1550,7 @@ namespace Microsoft.OData.Client
             return result.EndRequest();
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
         /// <summary>Synchronously submits a group of queries as a batch to the data service.Not supported by the WCF Data Services 5.0 client for Silverlight.</summary>
         /// <returns>The response to the batch operation.</returns>
         /// <param name="queries">Array of <see cref="T:Microsoft.OData.Client.DataServiceRequest[]" /> objects that make up the queries.</param>
@@ -1719,7 +1725,7 @@ namespace Microsoft.OData.Client
             return result;
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
         /// <summary>Sends a request to the data service to execute a specific URI.Not supported by the WCF Data Services 5.0 client for Silverlight.</summary>
         /// <returns>The results of the query operation.</returns>
         /// <param name="requestUri">The URI to which the query request will be sent. The URI may be any valid data service URI. Can contain $ query parameters.</param>
@@ -1882,7 +1888,7 @@ namespace Microsoft.OData.Client
             return errors;
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
         /// <summary>Saves the changes that the <see cref="T:Microsoft.OData.Client.DataServiceContext" /> is tracking to storage.Not supported by the WCF Data Services 5.0 client for Silverlight.</summary>
         /// <returns>A <see cref="T:Microsoft.OData.Client.DataServiceResponse" /> that contains status, headers, and errors that result from the call to <see cref="M:Microsoft.OData.Client.DataServiceContext.SaveChanges.Remarks" />.</returns>
         public DataServiceResponse SaveChanges()
@@ -2426,7 +2432,7 @@ namespace Microsoft.OData.Client
             return nextTask;
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB
+#if !PORTABLELIB
 
         /// <summary>
         /// Loads all pages of related entities for a specified property from the data service.Not supported by the WCF Data Services 5.0 client for Silverlight.
@@ -3269,12 +3275,8 @@ namespace Microsoft.OData.Client
 
             this.Format.SetRequestAcceptHeaderForStream(headers);
 
-#if ASTORIA_LIGHT
-            // For MR requests always use the ClientHtpp stack as the XHR doesn't support binary content
-            BuildingRequestEventArgs requestMessageArgs = this.CreateRequestArgsAndFireBuildingRequest(XmlConstants.HttpMethodGet, requestUri, headers, HttpStack.ClientHttp, streamDescriptor);
-#else
             BuildingRequestEventArgs requestMessageArgs = this.CreateRequestArgsAndFireBuildingRequest(XmlConstants.HttpMethodGet, requestUri, headers, HttpStack.Auto, streamDescriptor);
-#endif
+
             ODataRequestMessageWrapper requestMessage = this.CreateODataRequestMessage(requestMessageArgs, streamDescriptor);
 
             return new GetReadStreamResult(this, "GetReadStream", requestMessage, callback, state, streamDescriptor);
@@ -3329,7 +3331,7 @@ namespace Microsoft.OData.Client
             IODataResponseMessage response = null;
             try
             {
-#if !ASTORIA_LIGHT && !PORTABLELIB
+#if !PORTABLELIB
                 if (asyncResult == null)
                 {
                     response = request.GetResponse();
@@ -3470,7 +3472,7 @@ namespace Microsoft.OData.Client
             static ClientEdmModelCache()
             {
                 IEnumerable<ODataProtocolVersion> protocolVersions =
-#if ASTORIA_LIGHT || PORTABLELIB // Silverlight does not support Enum.GetValues()
+#if PORTABLELIB // Portable lib does not support Enum.GetValues()
  typeof(ODataProtocolVersion).GetFields().Where(f => f.IsLiteral).Select(f => f.GetValue(typeof(ODataProtocolVersion))).Cast<ODataProtocolVersion>();
 #else
  Enum.GetValues(typeof(ODataProtocolVersion)).Cast<ODataProtocolVersion>();

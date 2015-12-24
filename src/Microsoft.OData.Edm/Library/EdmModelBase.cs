@@ -7,6 +7,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OData.Edm.Annotations;
+using Microsoft.OData.Edm.Vocabularies.Community.V1;
 using Microsoft.OData.Edm.Vocabularies.V1;
 
 namespace Microsoft.OData.Edm.Library
@@ -43,9 +44,15 @@ namespace Microsoft.OData.Edm.Library
                 this.referencedEdmModels.Add(CoreVocabularyModel.Instance);
             }
 
-            if (CapabilitiesVocabularyModel.Instance != null)
+            // Make sure the core vocabulary model is initialized.
+            if (!CoreVocabularyModel.IsInitializing && CapabilitiesVocabularyModel.Instance != null)
             {
                 this.referencedEdmModels.Add(CapabilitiesVocabularyModel.Instance);
+            }
+
+            if (AlternateKeysVocabularyModel.Instance != null)
+            {
+                this.referencedEdmModels.Add(AlternateKeysVocabularyModel.Instance);
             }
 
             this.annotationsManager = annotationsManager;
@@ -158,7 +165,7 @@ namespace Microsoft.OData.Edm.Library
         /// <summary>
         /// Searches for bound operations based on the qualified name and binding type, returns an empty enumerable if no operation exists.
         /// </summary>
-        /// <param name="qualifiedName">The qualifeid name of the operation.</param>
+        /// <param name="qualifiedName">The qualified name of the operation.</param>
         /// <param name="bindingType">Type of the binding.</param>
         /// <returns>
         /// A set of operations that share the name and binding type or empty enumerable if no such operation exists.

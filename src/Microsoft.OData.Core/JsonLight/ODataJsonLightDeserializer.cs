@@ -31,7 +31,7 @@ namespace Microsoft.OData.Core.JsonLight
         /// <summary>The JsonLight input context to use for reading.</summary>
         private readonly ODataJsonLightInputContext jsonLightInputContext;
 
-        /// <summary>Context for entry etadata centric responsibilities.</summary>
+        /// <summary>Context for entry metadata centric responsibilities.</summary>
         private IODataMetadataContext metadataContext;
 
         /// <summary>Result of parsing the context URI for the payload (or null if none are available).</summary>
@@ -41,7 +41,7 @@ namespace Microsoft.OData.Core.JsonLight
         /// <summary>The OData Uri.</summary>
         private ODataUri odataUri;
 
-        /// <summary>True if the odata uri is caculated, false otherwise.</summary>
+        /// <summary>True if the odata uri is calculated, false otherwise.</summary>
         private bool isODataUriRead;
 
 #if DEBUG
@@ -220,7 +220,7 @@ namespace Microsoft.OData.Core.JsonLight
         /// <param name="payloadKind">The kind of payload we are reading; this guides the parsing of the context URI.</param>
         /// <param name="duplicatePropertyNamesChecker">The duplicate property names checker.</param>
         /// <param name="isReadingNestedPayload">true if we are deserializing a nested payload, e.g. an entry, a feed or a collection within a parameters payload.</param>
-        /// <param name="allowEmptyPayload">true if we allow a comletely empty payload; otherwise false.</param>
+        /// <param name="allowEmptyPayload">true if we allow a completely empty payload; otherwise false.</param>
         /// <remarks>
         /// Pre-Condition:  JsonNodeType.None:      assumes that the JSON reader has not been used yet when not reading a nested payload.
         /// Post-Condition: The reader is positioned on the first property of the payload after having read (or skipped) the context URI property.
@@ -270,7 +270,7 @@ namespace Microsoft.OData.Core.JsonLight
         /// <param name="payloadKind">The kind of payload we are reading; this guides the parsing of the context URI.</param>
         /// <param name="duplicatePropertyNamesChecker">The duplicate property names checker.</param>
         /// <param name="isReadingNestedPayload">true if we are deserializing a nested payload, e.g. an entry, a feed or a collection within a parameters payload.</param>
-        /// <param name="allowEmptyPayload">true if we allow a comletely empty payload; otherwise false.</param>
+        /// <param name="allowEmptyPayload">true if we allow a completely empty payload; otherwise false.</param>
         /// <returns>The parsed context URI.</returns>
         /// <remarks>
         /// Pre-Condition:  JsonNodeType.None:      assumes that the JSON reader has not been used yet when not reading a nested payload.
@@ -405,7 +405,8 @@ namespace Microsoft.OData.Core.JsonLight
                     EdmCoreModel.Instance.GetInt64(false),
                     this.MessageReaderSettings,
                     /*validateNullValue*/ true,
-                    annotationName);
+                    annotationName,
+                    this.Model.GetPayloadValueConverter());
         }
 
         /// <summary>
@@ -527,7 +528,8 @@ namespace Microsoft.OData.Core.JsonLight
 
             // Must make sure the input odata.context has a '@' prefix
             string propertyName = this.JsonReader.GetPropertyName();
-            if (string.CompareOrdinal(JsonLightConstants.ODataPropertyAnnotationSeparatorChar + ODataAnnotationNames.ODataContext, propertyName) != 0)
+            if (string.CompareOrdinal(JsonLightConstants.ODataPropertyAnnotationSeparatorChar + ODataAnnotationNames.ODataContext, propertyName) != 0
+                && !this.CompareSimplifiedODataAnnotation(JsonLightConstants.SimplifiedODataContextPropertyName, propertyName))
             {
                 if (!failOnMissingContextUriAnnotation || payloadKind == ODataPayloadKind.Unsupported)
                 {
@@ -546,6 +548,35 @@ namespace Microsoft.OData.Core.JsonLight
             // Read over the property name
             this.JsonReader.ReadNext();
             return this.JsonReader.ReadStringValue();
+        }
+
+        /// <summary>
+        /// Compares the JSON property name with the simplified OData annotation property name.
+        /// </summary>
+        /// <param name="simplifiedPropertyName">The simplified OData annotation property name.</param>
+        /// <param name="propertyName">The JSON property name read from the payload.</param>
+        /// <returns>If the JSON property name equals the simplified OData annotation property name.</returns>
+        protected bool CompareSimplifiedODataAnnotation(string simplifiedPropertyName, string propertyName)
+        {
+            Debug.Assert(simplifiedPropertyName.IndexOf('@') == 0, "simplifiedPropertyName must start with '@'.");
+            Debug.Assert(simplifiedPropertyName.IndexOf('.') == -1, "simplifiedPropertyName must not be namespace-qualified.");
+
+            return this.MessageReaderSettings.ODataSimplified && string.CompareOrdinal(simplifiedPropertyName, propertyName) == 0;
+        }
+
+        /// <summary>
+        /// Completes the simplified OData annotation name with "odata.".
+        /// </summary>
+        /// <param name="annotationName">The annotation name to be completed.</param>
+        /// <returns>The complete OData annotation name.</returns>
+        protected string CompleteSimplifiedODataAnnotation(string annotationName)
+        {
+            if (this.MessageReaderSettings.ODataSimplified && annotationName.IndexOf('.') == -1)
+            {
+                annotationName = JsonLightConstants.ODataAnnotationNamespacePrefix + annotationName;
+            }
+
+            return annotationName;
         }
 
         /// <summary>
@@ -651,7 +682,7 @@ namespace Microsoft.OData.Core.JsonLight
                 if (!isPropertyAnnotation)
                 {
                     isInstanceAnnotation = IsInstanceAnnotation(nameFromReader);
-                    propertyNameFromReader = isInstanceAnnotation ? nameFromReader.Substring(1) : nameFromReader;
+                    propertyNameFromReader = isInstanceAnnotation ? this.CompleteSimplifiedODataAnnotation(nameFromReader.Substring(1)) : nameFromReader;
                 }
 
                 // If parsedPropertyName is set and is different from the property name the reader is currently on,
@@ -668,6 +699,8 @@ namespace Microsoft.OData.Core.JsonLight
 
                 if (isPropertyAnnotation)
                 {
+                    annotationNameFromReader = this.CompleteSimplifiedODataAnnotation(annotationNameFromReader);
+
                     // If this is a unknown odata annotation targeting a property, we skip over it. See remark on the method SkippedOverUnknownODataAnnotation() for detailed explaination.
                     // Note that we don't skip over unknown odata annotations targeting another annotation. We don't allow annotations (except odata.type) targeting other annotations,
                     // so this.ProcessPropertyAnnotation() will test and fail for that case.

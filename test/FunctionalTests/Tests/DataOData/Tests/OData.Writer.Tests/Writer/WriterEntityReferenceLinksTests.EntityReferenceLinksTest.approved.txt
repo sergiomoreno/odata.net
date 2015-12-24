@@ -7,7 +7,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -21,7 +21,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -29,11 +29,11 @@ Model Present: true
 Combination: 10; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -41,11 +41,11 @@ Model Present: true
 Combination: 12; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -173,7 +173,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -187,7 +187,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -195,11 +195,11 @@ Model Present: true
 Combination: 50; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -207,11 +207,11 @@ Model Present: true
 Combination: 52; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -277,7 +277,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -291,7 +291,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -299,11 +299,11 @@ Model Present: true
 Combination: 90; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -311,11 +311,11 @@ Model Present: true
 Combination: 92; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -431,7 +431,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -445,7 +445,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -453,11 +453,11 @@ Model Present: true
 Combination: 130; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -465,11 +465,11 @@ Model Present: true
 Combination: 132; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -605,7 +605,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -619,7 +619,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -627,11 +627,11 @@ Model Present: true
 Combination: 170; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -639,11 +639,11 @@ Model Present: true
 Combination: 172; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -709,7 +709,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -723,7 +723,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -731,11 +731,11 @@ Model Present: true
 Combination: 210; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -743,11 +743,11 @@ Model Present: true
 Combination: 212; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":1,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -875,7 +875,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -889,7 +889,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -897,11 +897,11 @@ Model Present: true
 Combination: 250; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -909,11 +909,11 @@ Model Present: true
 Combination: 252; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1049,7 +1049,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1063,7 +1063,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1071,11 +1071,11 @@ Model Present: true
 Combination: 290; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1083,11 +1083,11 @@ Model Present: true
 Combination: 292; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1153,7 +1153,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1167,7 +1167,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1175,11 +1175,11 @@ Model Present: true
 Combination: 330; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1187,11 +1187,11 @@ Model Present: true
 Combination: 332; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":3,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1319,7 +1319,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1333,7 +1333,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1341,11 +1341,11 @@ Model Present: true
 Combination: 370; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1353,11 +1353,11 @@ Model Present: true
 Combination: 372; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1493,7 +1493,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1507,7 +1507,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1515,11 +1515,11 @@ Model Present: true
 Combination: 410; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1527,11 +1527,11 @@ Model Present: true
 Combination: 412; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1597,7 +1597,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1611,7 +1611,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1619,11 +1619,11 @@ Model Present: true
 Combination: 450; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1631,11 +1631,11 @@ Model Present: true
 Combination: 452; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-1,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1763,7 +1763,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1777,7 +1777,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1785,11 +1785,11 @@ Model Present: true
 Combination: 490; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1797,11 +1797,11 @@ Model Present: true
 Combination: 492; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1937,7 +1937,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1951,7 +1951,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1959,11 +1959,11 @@ Model Present: true
 Combination: 530; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -1971,11 +1971,11 @@ Model Present: true
 Combination: 532; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2041,7 +2041,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2055,7 +2055,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2063,11 +2063,11 @@ Model Present: true
 Combination: 570; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2075,11 +2075,11 @@ Model Present: true
 Combination: 572; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-3,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2207,7 +2207,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2221,7 +2221,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2229,11 +2229,11 @@ Model Present: true
 Combination: 610; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2241,11 +2241,11 @@ Model Present: true
 Combination: 612; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2381,7 +2381,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2395,7 +2395,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2403,11 +2403,11 @@ Model Present: true
 Combination: 650; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2415,11 +2415,11 @@ Model Present: true
 Combination: 652; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2485,7 +2485,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2499,7 +2499,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2507,11 +2507,11 @@ Model Present: true
 Combination: 690; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2519,11 +2519,11 @@ Model Present: true
 Combination: 692; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":0,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2651,7 +2651,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2665,7 +2665,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2673,11 +2673,11 @@ Model Present: true
 Combination: 730; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2685,11 +2685,11 @@ Model Present: true
 Combination: 732; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2825,7 +2825,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2839,7 +2839,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2847,11 +2847,11 @@ Model Present: true
 Combination: 770; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2859,11 +2859,11 @@ Model Present: true
 Combination: 772; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2929,7 +2929,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2943,7 +2943,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2951,11 +2951,11 @@ Model Present: true
 Combination: 810; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -2963,11 +2963,11 @@ Model Present: true
 Combination: 812; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":9223372036854775807,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3095,7 +3095,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3109,7 +3109,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3117,11 +3117,11 @@ Model Present: true
 Combination: 850; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3129,11 +3129,11 @@ Model Present: true
 Combination: 852; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"http://odata.org/nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"http://odata.org/nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3269,7 +3269,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3283,7 +3283,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3291,11 +3291,11 @@ Model Present: true
 Combination: 890; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3303,11 +3303,11 @@ Model Present: true
 Combination: 892; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"relative-nextpage","value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@odata.nextLink":"relative-nextpage","@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3373,7 +3373,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3387,7 +3387,7 @@ Model Present: true
     },{
       "@odata.id":"linkresult2"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3395,11 +3395,11 @@ Model Present: true
 Combination: 930; TestConfiguration = Format: JsonLight, Request: False, Synchronous: True
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }
@@ -3407,11 +3407,11 @@ Model Present: true
 Combination: 932; TestConfiguration = Format: JsonLight, Request: False, Synchronous: False
 Model Present: true
 {
-  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"value":[
+  "@odata.context":"http://odata.org/$metadata#Collection($ref)","@odata.count":-9223372036854775808,"@TestModel.annotation":321,"@custom.annotation":654,"value":[
     {
       "@odata.id":"http://odata.org/linkresult1"
     },{
-      "@odata.id":"http://odata.org/linkresult3"
+      "@odata.id":"http://odata.org/linkresult3","@TestModel.unknown":123,"@custom.name":456
     }
   ]
 }

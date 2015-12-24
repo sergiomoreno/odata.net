@@ -3,9 +3,10 @@
 //      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
 // </copyright>
 //---------------------------------------------------------------------
-
 namespace Microsoft.OData.Core
 {
+    using Microsoft.OData.Edm;
+
     /// <summary>
     /// Extension methods on the OData object model.
     /// </summary>
@@ -86,6 +87,43 @@ namespace Microsoft.OData.Core
         {
             ExceptionUtils.CheckArgumentNotNull(deltalink, "deltalink");
             deltalink.SerializationInfo = serializationInfo;
+        }
+
+        /// <summary>
+        /// Set the payload value converter
+        /// </summary>
+        /// <param name="model">The instance to set the value payload converter.</param>
+        /// <param name="converter">The payload value converter to set.</param>
+        public static void SetPayloadValueConverter(this IEdmModel model, ODataPayloadValueConverter converter)
+        {
+            ExceptionUtils.CheckArgumentNotNull(model, "model");
+            ExceptionUtils.CheckArgumentNotNull(converter, "converter");
+
+            // Set payload value converter for the model.
+            model.SetAnnotationValue(
+                model,
+                Metadata.EdmConstants.InternalUri,
+                Metadata.EdmConstants.PayloadValueConverterAnnotation,
+                converter);
+        }
+
+        /// <summary>
+        /// Get the payload value converter
+        /// </summary>
+        /// <param name="model">The instance to get the value payload converter from.</param>
+        /// <returns>The payload value converter</returns>
+        public static ODataPayloadValueConverter GetPayloadValueConverter(this IEdmModel model)
+        {
+            ExceptionUtils.CheckArgumentNotNull(model, "model");
+
+            // Get payload value converter for the model.
+            ODataPayloadValueConverter converter = model.GetAnnotationValue(
+                model,
+                Metadata.EdmConstants.InternalUri,
+                Metadata.EdmConstants.PayloadValueConverterAnnotation)
+                as ODataPayloadValueConverter;
+
+            return converter ?? ODataPayloadValueConverter.Default;
         }
     }
 }

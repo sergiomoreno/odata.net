@@ -71,8 +71,10 @@ namespace Microsoft.OData.Core.JsonLight
                 this.WriteContextUriProperty(ODataPayloadKind.EntityReferenceLink);
             }
 
-            this.JsonWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataId);
+            this.ODataAnnotationWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataId);
             this.JsonWriter.WriteValue(this.UriToString(entityReferenceLink.Url));
+
+            this.InstanceAnnotationWriter.WriteInstanceAnnotations(entityReferenceLink.InstanceAnnotations);
             this.JsonWriter.EndObjectScope();
         }
 
@@ -108,6 +110,8 @@ namespace Microsoft.OData.Core.JsonLight
                 this.WriteNextLinkAnnotation(entityReferenceLinks.NextPageLink);
             }
 
+            this.InstanceAnnotationWriter.WriteInstanceAnnotations(entityReferenceLinks.InstanceAnnotations);
+
             // "value":
             this.JsonWriter.WriteValuePropertyName();
 
@@ -127,7 +131,6 @@ namespace Microsoft.OData.Core.JsonLight
             // "]"
             this.JsonWriter.EndArrayScope();
 
-
             if (!wroteNextLink && entityReferenceLinks.NextPageLink != null)
             {
                 // "@odata.next": ...
@@ -146,7 +149,7 @@ namespace Microsoft.OData.Core.JsonLight
         {
             Debug.Assert(nextPageLink != null, "Expected non-null next link.");
 
-            this.JsonWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataNextLink);
+            this.ODataAnnotationWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataNextLink);
             this.JsonWriter.WriteValue(this.UriToString(nextPageLink));
         }
 
@@ -156,7 +159,7 @@ namespace Microsoft.OData.Core.JsonLight
         /// <param name="countValue">The value of the count property to write.</param>
         private void WriteCountAnnotation(long countValue)
         {
-            this.JsonWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataCount);
+            this.ODataAnnotationWriter.WriteInstanceAnnotationName(ODataAnnotationNames.ODataCount);
             this.JsonWriter.WriteValue(countValue);
         }
     }

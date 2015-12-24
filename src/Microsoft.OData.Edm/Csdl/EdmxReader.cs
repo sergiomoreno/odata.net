@@ -15,6 +15,7 @@ using Microsoft.OData.Edm.Csdl.Parsing;
 using Microsoft.OData.Edm.Csdl.Parsing.Ast;
 using Microsoft.OData.Edm.Library;
 using Microsoft.OData.Edm.Validation;
+using Microsoft.OData.Edm.Vocabularies.Community.V1;
 using Microsoft.OData.Edm.Vocabularies.V1;
 
 namespace Microsoft.OData.Edm.Csdl
@@ -51,7 +52,7 @@ namespace Microsoft.OData.Edm.Csdl
         private string source;
 
         /// <summary>
-        /// Construcotr
+        /// Constructor
         /// </summary>
         /// <param name="reader">the XmlReader for current Edm doc</param>
         /// <param name="getReferencedModelReaderFunc">The function to load referenced model xml. If null, will stop loading the referenced model.</param>
@@ -357,9 +358,9 @@ namespace Microsoft.OData.Edm.Csdl
                     continue;
                 }
 
-                if (tmp.Uri != null
-                    && (tmp.Uri.EndsWith(CoreVocabularyConstants.VocabularyUrlSuffix, StringComparison.Ordinal))
-                        || tmp.Uri.EndsWith(CapabilitiesVocabularyConstants.VocabularyUrlSuffix, StringComparison.Ordinal))
+                if (tmp.Uri != null && (tmp.Uri.EndsWith(CoreVocabularyConstants.VocabularyUrlSuffix, StringComparison.Ordinal) ||
+                    tmp.Uri.EndsWith(CapabilitiesVocabularyConstants.VocabularyUrlSuffix, StringComparison.Ordinal) ||
+                    tmp.Uri.EndsWith(AlternateKeysVocabularyConstants.VocabularyUrlSuffix, StringComparison.Ordinal)))
                 {
                     continue;
                 }
@@ -371,7 +372,7 @@ namespace Microsoft.OData.Edm.Csdl
                     continue;
                 }
 
-                // recusively use EdmxReader to parse sub edm:
+                // recursively use EdmxReader to parse sub edm:
                 EdmxReader referencedEdmxReader = new EdmxReader(referencedXmlReader, /*getReferencedModelReaderFunc*/ null);
                 referencedEdmxReader.source = tmp.Uri;
                 referencedEdmxReader.ignoreUnexpectedAttributesAndElements = this.ignoreUnexpectedAttributesAndElements;
@@ -400,7 +401,7 @@ namespace Microsoft.OData.Edm.Csdl
         /// </summary>
         /// <param name="edmxVersion">The edmxVersion out.</param>
         /// <param name="csdlModel">The CsdlModel out.</param>
-        /// <returns>Ture if succeeded.</returns>
+        /// <returns>True if succeeded.</returns>
         private bool TryParseEdmxFileToCsdlModel(out Version edmxVersion, out CsdlModel csdlModel)
         {
             edmxVersion = null;

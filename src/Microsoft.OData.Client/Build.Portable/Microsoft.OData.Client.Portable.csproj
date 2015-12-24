@@ -6,7 +6,7 @@
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DefineConstants>$(DefineConstants);ASTORIA_CLIENT;WINRT;</DefineConstants>
+    <DefineConstants>$(DefineConstants);ASTORIA_CLIENT;DNXCORE50;</DefineConstants>
     <DocumentationFile>$(AssemblyName).xml</DocumentationFile>
     <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
     <RootNamespace>System</RootNamespace>
@@ -867,6 +867,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Microsoft.OData.Client.Portable.cs</LastGenOutput>
     </None>
+    <Compile Include="..\Annotation\InstanceAnnotationDictWeakKeyComparer.cs">
+      <Link>Annotation\InstanceAnnotationDictWeakKeyComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\WeakDictionary.cs">
+      <Link>WeakDictionary.cs</Link>
+    </Compile>
     <Compile Include="Microsoft.OData.Client.Portable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

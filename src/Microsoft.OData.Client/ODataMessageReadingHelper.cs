@@ -37,7 +37,7 @@ namespace Microsoft.OData.Client
         internal ODataMessageReaderSettings CreateSettings()
         {
             ODataMessageReaderSettings settings = new ODataMessageReaderSettings();
-#if !WINRT
+#if !DNXCORE50
             if (this.responseInfo.Context.EnableAtom)
             {
                 // Enable ATOM in client
@@ -53,6 +53,7 @@ namespace Microsoft.OData.Client
             settings.EnableWcfDataServicesClientBehavior(resolveWireTypeName);
 
             settings.BaseUri = this.responseInfo.BaseUriResolver.BaseUriOrNull;
+            settings.ODataSimplified = this.responseInfo.Context.ODataSimplified;
             settings.UndeclaredPropertyBehaviorKinds = ODataUndeclaredPropertyBehaviorKinds.ReportUndeclaredLinkProperty;
             settings.MaxProtocolVersion = CommonUtil.ConvertToODataVersion(this.responseInfo.MaxProtocolVersion);
             if (this.responseInfo.IgnoreMissingProperties)

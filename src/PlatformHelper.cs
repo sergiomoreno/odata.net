@@ -35,7 +35,7 @@ namespace Microsoft.OData.Edm
     using System.Linq;
 #endif
     using System.Reflection;
-#if WINRT
+#if DNXCORE50
     using System.Threading;
 #endif
     using System.Xml;
@@ -44,7 +44,7 @@ namespace Microsoft.OData.Edm
     using Microsoft.OData.Edm.Library;
 #endif
 
-#if WINRT
+#if DNXCORE50
 
     #region Missing enums
 
@@ -102,6 +102,47 @@ namespace Microsoft.OData.Edm
         String = 18,
     }
 
+    [Flags]
+    internal enum BindingFlags
+    {
+        /// <summary>Specifies that the case of the member name should not be considered when binding.</summary>
+        IgnoreCase = 1,
+
+        /// <summary>Specifies that only members declared at the level of the supplied type's hierarchy should be
+        ///  considered. Inherited members are not considered.</summary>
+        DeclaredOnly = 2,
+
+        /// <summary>Specifies that instance members are to be included in the search.</summary>
+        Instance = 4,
+
+        /// <summary>Specifies that static members are to be included in the search.</summary>
+        Static = 8,
+
+        /// <summary>Specifies that public members are to be included in the search.</summary>
+        Public = 16,
+
+        /// <summary>Specifies that non-public members are to be included in the search.</summary>
+        NonPublic = 32,
+
+        /// <summary>Specifies that public and protected static members up the hierarchy should
+        /// be returned. Private static members in inherited classes are not returned.
+        /// Static members include fields, methods, events, and properties. Nested types are not returned.</summary>
+        FlattenHierarchy = 64,
+
+        /// <summary>Specifies that types of the supplied arguments must exactly match the types
+        /// of the corresponding formal parameters. Reflection throws an exception if
+        /// the caller supplies a non-null Binder object, since that implies that the
+        /// caller is supplying BindToXXX implementations that will pick the appropriate method.</summary>
+        ExactBinding = 65536,
+
+        /// <summary>Returns the set of members whose parameter count matches the number of supplied
+        /// arguments. This binding flag is used for methods with parameters that have
+        /// default values and methods with variable arguments (varargs). This flag should
+        /// only be used with System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[]).
+        /// </summary>
+        OptionalParamBinding = 262144,
+    }
+
     #endregion
 #endif
 
@@ -151,7 +192,7 @@ namespace Microsoft.OData.Edm
         internal static readonly string UriSchemeHttps = Uri.UriSchemeHttps;
 #endif
 
-#if WINRT
+#if DNXCORE50
         /// <summary>
         /// Map of TypeCodes used with GetTypeCode method. Only initialized if that method is called.
         /// </summary>
@@ -168,7 +209,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static Assembly GetAssembly(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().Assembly;
 #else
             return type.Assembly;
@@ -183,7 +224,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsValueType(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsValueType;
 #else
             return type.IsValueType;
@@ -209,7 +250,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsAbstract(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsAbstract;
 #else
             return type.IsAbstract;
@@ -224,7 +265,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsGenericType(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsGenericType;
 #else
             return type.IsGenericType;
@@ -239,7 +280,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsGenericTypeDefinition(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsGenericTypeDefinition;
 #else
             return type.IsGenericTypeDefinition;
@@ -254,7 +295,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsVisible(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsVisible;
 #else
             return type.IsVisible;
@@ -269,7 +310,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsInterface(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsInterface;
 #else
             return type.IsInterface;
@@ -284,7 +325,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsClass(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsClass;
 #else
             return type.IsClass;
@@ -299,7 +340,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsEnum(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsEnum;
 #else
             return type.IsEnum;
@@ -314,7 +355,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static Type GetBaseType(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().BaseType;
 #else
             return type.BaseType;
@@ -329,7 +370,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool ContainsGenericParameters(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().ContainsGenericParameters;
 #else
             return type.ContainsGenericParameters;
@@ -473,7 +514,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static TypeCode GetTypeCode(Type type)
         {
-#if WINRT
+#if DNXCORE50
             if (typeCodeMap == null)
             {
                 Interlocked.CompareExchange(ref typeCodeMap, new TypeCodeMap(), null);
@@ -527,7 +568,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsPrimitive(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsPrimitive;
 #else
             return type.IsPrimitive;
@@ -542,7 +583,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static bool IsSealed(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().IsSealed;
 #else
             return type.IsSealed;
@@ -603,10 +644,10 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static IEnumerable<PropertyInfo> GetPublicProperties(this Type type, bool instanceOnly, bool declaredOnly)
         {
-            // WINRT: The BindingFlags enum and all related reflection method overloads have been removed from WINRT. Instead of trying to provide
+            // DNXCORE50: The BindingFlags enum and all related reflection method overloads have been removed from DNXCORE50. Instead of trying to provide
             // a general purpose flags enum and methods that can take any combination of the flags, we provide more restrictive methods that
             // still allow for the same functionality as needed by the calling code.
-#if WINRT
+#if DNXCORE50
             // TypeInfo.DeclaredProperties and Type.GetRuntimeProperties return both public and private properties, so need to filter out only public ones.
             IEnumerable<PropertyInfo> properties = declaredOnly ? type.GetTypeInfo().DeclaredProperties : type.GetRuntimeProperties();
             return properties.Where(p => IsPublic(p) && (!instanceOnly || IsInstance(p)));
@@ -635,10 +676,10 @@ namespace Microsoft.OData.Edm
         /// <returns>Enumerable of non public properties for the type.</returns>
         internal static IEnumerable<PropertyInfo> GetNonPublicProperties(this Type type, bool instanceOnly, bool declaredOnly)
         {
-            // WINRT: The BindingFlags enum and all related reflection method overloads have been removed from WINRT. Instead of trying to provide
+            // DNXCORE50: The BindingFlags enum and all related reflection method overloads have been removed from DNXCORE50. Instead of trying to provide
             // a general purpose flags enum and methods that can take any combination of the flags, we provide more restrictive methods that
             // still allow for the same functionality as needed by the calling code.
-#if WINRT
+#if DNXCORE50
             // TypeInfo.DeclaredProperties and Type.GetRuntimeProperties return both public and private properties, so need to filter out only public ones.
             IEnumerable<PropertyInfo> properties = declaredOnly ? type.GetTypeInfo().DeclaredProperties : type.GetRuntimeProperties();
             return properties.Where(p => !IsPublic(p) && (!instanceOnly || IsInstance(p)));
@@ -667,7 +708,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static IEnumerable<ConstructorInfo> GetInstanceConstructors(this Type type, bool isPublic)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().DeclaredConstructors.Where(c => !c.IsStatic && isPublic == c.IsPublic);
 #else
             BindingFlags bindingFlags = BindingFlags.Instance;
@@ -724,12 +765,29 @@ namespace Microsoft.OData.Edm
         /// <returns>Enumerable of all methods for the specified type.</returns>
         internal static IEnumerable<MethodInfo> GetMethods(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetRuntimeMethods();
 #else
             return type.GetMethods();
 #endif
         }
+
+#if DNXCORE50
+        internal static MethodInfo GetMethod(this Type type, string name, BindingFlags bindingAttr)
+        {
+            var isPublic = bindingAttr.HasFlag(BindingFlags.Public);
+            var isStatic = bindingAttr.HasFlag(BindingFlags.Static);
+            return type.GetMethod(name, isPublic, isStatic);
+        }
+
+        internal static MethodInfo[] GetMethods(this Type type, BindingFlags bindingAttr)
+        {
+            var isPublic = bindingAttr.HasFlag(BindingFlags.Public);
+            var isStatic = bindingAttr.HasFlag(BindingFlags.Static);
+
+            return type.GetRuntimeMethods().Where(m => isPublic == m.IsPublic && isStatic == m.IsStatic).ToArray();
+        }
+#endif
 
         /// <summary>
         /// Gets a method on the specified type.
@@ -746,7 +804,7 @@ namespace Microsoft.OData.Edm
             // WIN8: The BindingFlags enum and all related reflection method overloads have been removed from Win8. Instead of trying to provide
             // a general purpose flags enum and methods that can take any combination of the flags, we provide more restrictive methods that
             // still allow for the same functionality as needed by the calling code.
-#if WINRT
+#if DNXCORE50
             return type.GetRuntimeMethods()
                 .Where(
                     m =>
@@ -810,7 +868,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static IEnumerable<MethodInfo> GetPublicStaticMethods(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetRuntimeMethods().Where(m => m.IsPublic && m.IsStatic);
 #else
             return type.GetMethods(BindingFlags.Static | BindingFlags.Public);
@@ -825,7 +883,7 @@ namespace Microsoft.OData.Edm
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Code is shared among multiple assemblies and this method should be available as a helper in case it is needed in new code.")]
         internal static IEnumerable<Type> GetNonPublicNestedTypes(this Type type)
         {
-#if WINRT
+#if DNXCORE50
             return type.GetTypeInfo().DeclaredNestedTypes.Where(t => t.IsNotPublic).Select(t => t.AsType());
 #else
             return type.GetNestedTypes(BindingFlags.NonPublic);
@@ -862,8 +920,8 @@ namespace Microsoft.OData.Edm
         }
 #endif
 
-#if WINRT
-        #region Extension Methods to replace missing functionality (used for WINRT only, methods with these signatures already exist on other platforms)
+#if DNXCORE50
+        #region Extension Methods to replace missing functionality (used for DNXCORE50 only, methods with these signatures already exist on other platforms)
         /// <summary>
         /// Replacement for Type.IsAssignableFrom(Type)
         /// </summary>

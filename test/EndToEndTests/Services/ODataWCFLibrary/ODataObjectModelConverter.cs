@@ -10,12 +10,14 @@ namespace Microsoft.Test.OData.Services.ODataWCFService
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
     using System.Xml;
     using Microsoft.OData.Core;
     using Microsoft.OData.Core.UriParser;
     using Microsoft.OData.Edm;
+    using Microsoft.OData.Edm.Library;
     using Microsoft.Test.OData.Services.ODataWCFService.DataSource;
 
     /// <summary>
@@ -54,6 +56,12 @@ namespace Microsoft.Test.OData.Services.ODataWCFService
                         entry.InstanceAnnotations.Add(new ODataInstanceAnnotation(annotation.Name, annotation.ConvertValueToODataValue()));
                     }
                 }
+            }
+
+            // Work around for entities from different entity set.
+            if (!string.IsNullOrEmpty(((ClrObject)element).EntitySetName) && entitySource is IEdmEntitySet && entityType is IEdmEntityType)
+            {
+                entitySource = new EdmEntitySet(((IEdmEntitySet)entitySource).Container, ((ClrObject)element).EntitySetName, (IEdmEntityType)entityType);
             }
 
             string typeName;
@@ -100,6 +108,56 @@ namespace Microsoft.Test.OData.Services.ODataWCFService
             }
 
             return entry;
+        }
+
+        /// <summary>
+        /// Converts an item from the data store into an ODataEntityReferenceLink.
+        /// </summary>
+        /// <param name="element">The item to convert.</param>
+        /// <param name="navigationSource">The navigation source that the item belongs to.</param>
+        /// <param name="targetVersion">The OData version this segment is targeting.</param>
+        /// <returns>The converted ODataEntityReferenceLink represent with ODataEntry.</returns>
+        public static ODataEntry ConvertToODataEntityReferenceLink(object element, IEdmNavigationSource entitySource, ODataVersion targetVersion)
+        {
+            IEdmStructuredType entityType = EdmClrTypeUtils.GetEdmType(DataSourceManager.GetCurrentDataSource().Model, element) as IEdmStructuredType;
+
+            if (entityType == null)
+            {
+                throw new InvalidOperationException("Can not create an entry for " + entitySource.Name);
+            }
+
+            var link = new ODataEntry();
+            if (!string.IsNullOrEmpty(((ClrObject)element).EntitySetName) && entitySource is IEdmEntitySet && entityType is IEdmEntityType)
+            {
+                entitySource = new EdmEntitySet(((IEdmEntitySet)entitySource).Container, ((ClrObject)element).EntitySetName, (IEdmEntityType)entityType);
+            }
+
+            if (!(entitySource is IEdmContainedEntitySet))
+            {
+                Uri Url = BuildEntryUri(element, entitySource, targetVersion);
+                link.Id = Url;
+            }
+
+            return link;
+        }
+
+        /// <summary>
+        /// Converts an item from the data store into an ODataEntityReferenceLinks.
+        /// </summary>
+        /// <param name="element">The item to convert.</param>
+        /// <param name="navigationSource">The navigation source that the item belongs to.</param>
+        /// <param name="targetVersion">The OData version this segment is targeting.</param>
+        /// <returns>The converted ODataEntityReferenceLinks represent with list of ODataEntry.</returns>
+        public static IEnumerable<ODataEntry> ConvertToODataEntityReferenceLinks(IEnumerable element, IEdmNavigationSource entitySource, ODataVersion targetVersion)
+        {
+            List<ODataEntry> links = new List<ODataEntry>();
+            foreach (var each in element)
+            {
+                ODataEntry link = ConvertToODataEntityReferenceLink(each, entitySource, targetVersion);
+                links.Add(link);
+            }
+
+            return links;
         }
 
         public static IEnumerable<ODataProperty> GetProperties(object instance, IEdmStructuredType structuredType)

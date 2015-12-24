@@ -12,8 +12,6 @@ namespace Microsoft.OData.Core.JsonLight
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Linq;
 #if ODATALIB_ASYNC
     using System.Threading.Tasks;
 #endif
@@ -97,16 +95,16 @@ namespace Microsoft.OData.Core.JsonLight
                 /*allowEmptyPayload*/false)
 
                 .FollowOnSuccessWith(t =>
-            {
-                ODataProperty resultProperty = this.ReadTopLevelPropertyImplementation(expectedPropertyTypeReference, duplicatePropertyNamesChecker);
+                {
+                    ODataProperty resultProperty = this.ReadTopLevelPropertyImplementation(expectedPropertyTypeReference, duplicatePropertyNamesChecker);
 
-                this.ReadPayloadEnd(/*isReadingNestedPayload*/ false);
+                    this.ReadPayloadEnd(/*isReadingNestedPayload*/ false);
 
-                Debug.Assert(this.JsonReader.NodeType == JsonNodeType.EndOfInput, "Post-Condition: expected JsonNodeType.EndOfInput");
-                this.JsonReader.AssertNotBuffering();
+                    Debug.Assert(this.JsonReader.NodeType == JsonNodeType.EndOfInput, "Post-Condition: expected JsonNodeType.EndOfInput");
+                    this.JsonReader.AssertNotBuffering();
 
-                return resultProperty;
-            });
+                    return resultProperty;
+                });
         }
 #endif
 
@@ -324,7 +322,8 @@ namespace Microsoft.OData.Core.JsonLight
 
             bool result = false;
             string propertyName = this.JsonReader.GetPropertyName();
-            if (string.CompareOrdinal(propertyName, JsonLightConstants.ODataPropertyAnnotationSeparatorChar + ODataAnnotationNames.ODataType) == 0)
+            if (string.CompareOrdinal(propertyName, JsonLightConstants.ODataPropertyAnnotationSeparatorChar + ODataAnnotationNames.ODataType) == 0
+                || this.CompareSimplifiedODataAnnotation(JsonLightConstants.SimplifiedODataTypePropertyName, propertyName))
             {
                 // Read over the property name
                 this.JsonReader.ReadNext();
@@ -523,8 +522,8 @@ namespace Microsoft.OData.Core.JsonLight
             {
                 throw new ODataException(ODataErrorStrings.ReaderValidationUtils_TypeInContextUriDoesNotMatchExpectedType(
                         UriUtils.UriToString(this.ContextUriParseResult.ContextUri),
-                        typeFromContextUri.ODataFullName(),
-                        expectedPropertyTypeReference.ODataFullName()));
+                        typeFromContextUri.FullTypeName(),
+                        expectedPropertyTypeReference.FullName()));
             }
 
             // Assume the value is nullable as its the looser option and the value may come from an open property.
@@ -564,7 +563,7 @@ namespace Microsoft.OData.Core.JsonLight
             this.JsonReader.ReadStartArray();
 
             ODataCollectionValue collectionValue = new ODataCollectionValue();
-            collectionValue.TypeName = collectionValueTypeReference != null ? collectionValueTypeReference.ODataFullName() : payloadTypeName;
+            collectionValue.TypeName = collectionValueTypeReference != null ? collectionValueTypeReference.FullName() : payloadTypeName;
             if (serializationTypeNameAnnotation != null)
             {
                 collectionValue.SetAnnotation(serializationTypeNameAnnotation);
@@ -689,7 +688,7 @@ namespace Microsoft.OData.Core.JsonLight
                     {
                         if ((result is string) ^ this.JsonReader.IsIeee754Compatible)
                         {
-                            throw new ODataException(ODataErrorStrings.ODataJsonReaderUtils_ConflictBetweenInputFormatAndParameter(expectedValueTypeReference.ODataFullName()));
+                            throw new ODataException(ODataErrorStrings.ODataJsonReaderUtils_ConflictBetweenInputFormatAndParameter(expectedValueTypeReference.FullName()));
                         }
                     }
 
@@ -698,7 +697,8 @@ namespace Microsoft.OData.Core.JsonLight
                         expectedValueTypeReference,
                         this.MessageReaderSettings,
                         validateNullValue,
-                        propertyName);
+                        propertyName,
+                        this.Model.GetPayloadValueConverter());
                 }
                 else
                 {
@@ -733,7 +733,7 @@ namespace Microsoft.OData.Core.JsonLight
             }
 
             string enumStr = this.JsonReader.ReadStringValue();
-            return new ODataEnumValue(enumStr, expectedValueTypeReference.ODataFullName());
+            return new ODataEnumValue(enumStr, expectedValueTypeReference.FullName());
         }
 
         /// <summary>
@@ -761,7 +761,7 @@ namespace Microsoft.OData.Core.JsonLight
             this.IncreaseRecursionDepth();
 
             ODataComplexValue complexValue = new ODataComplexValue();
-            complexValue.TypeName = complexValueTypeReference != null ? complexValueTypeReference.ODataFullName() : payloadTypeName;
+            complexValue.TypeName = complexValueTypeReference != null ? complexValueTypeReference.FullName() : payloadTypeName;
             if (serializationTypeNameAnnotation != null)
             {
                 complexValue.SetAnnotation(serializationTypeNameAnnotation);
@@ -818,7 +818,8 @@ namespace Microsoft.OData.Core.JsonLight
                                     edmProperty = ReaderValidationUtils.ValidateValuePropertyDefined(propertyName, complexValueTypeReference.ComplexDefinition(), this.MessageReaderSettings, out ignoreProperty);
                                 }
 
-                                if (ignoreProperty)
+                                if (ignoreProperty
+                                    && (this.JsonReader.NodeType == JsonNodeType.StartObject || this.JsonReader.NodeType == JsonNodeType.StartArray))
                                 {
                                     this.JsonReader.SkipValue();
                                 }
@@ -993,7 +994,7 @@ namespace Microsoft.OData.Core.JsonLight
                     if (targetTypeKind != EdmTypeKind.Collection || isDynamicProperty != true)
                     {
                         // A null value was found for the property named '{0}', which has the expected type '{1}[Nullable=False]'. The expected type '{1}[Nullable=False]' does not allow null values.
-                        throw new ODataException(ODataErrorStrings.ReaderValidationUtils_NullNamedValueForNonNullableType(propertyName, targetTypeReference.ODataFullName()));
+                        throw new ODataException(ODataErrorStrings.ReaderValidationUtils_NullNamedValueForNonNullableType(propertyName, targetTypeReference.FullName()));
                     }
                 }
 
@@ -1001,15 +1002,6 @@ namespace Microsoft.OData.Core.JsonLight
             }
             else
             {
-                if (targetTypeReference == null && targetTypeKind != EdmTypeKind.Primitive)
-                {
-                    // In JSON Light we have to always know the target type; either from an expected type specified in
-                    // the API or the context URI or from a payload type name.
-                    // NOTE: throw the same error message as we do for other cases where we don't have an expected
-                    //       type and don't find a payload type; see ReaderValidationUtils.ResolveAndValidateTargetTypeWithNoExpectedType.
-                    throw new ODataException(ODataErrorStrings.ReaderValidationUtils_ValueWithoutType);
-                }
-
                 Debug.Assert(
                     !valueIsJsonObject || this.JsonReader.NodeType == JsonNodeType.Property || this.JsonReader.NodeType == JsonNodeType.EndObject,
                     "If the value was an object the reader must be on either property or end object.");
@@ -1044,7 +1036,7 @@ namespace Microsoft.OData.Core.JsonLight
                         break;
 
                     case EdmTypeKind.Complex:
-                        Debug.Assert(targetTypeReference.IsComplex(), "Expected a complex type.");
+                        Debug.Assert(targetTypeReference == null || targetTypeReference.IsComplex(), "Expected null or a complex type.");
 
                         if (payloadTypeNameFromPropertyAnnotation)
                         {
@@ -1059,7 +1051,7 @@ namespace Microsoft.OData.Core.JsonLight
                         }
 
                         result = this.ReadComplexValue(
-                            targetTypeReference.AsComplex(),
+                            targetTypeReference == null ? null : targetTypeReference.AsComplex(),
                             payloadTypeName,
                             serializationTypeNameAnnotation,
                             duplicatePropertyNamesChecker);

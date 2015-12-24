@@ -47,7 +47,7 @@ internal static class DataFxAssemblyRef
     internal static class File
     {
         /// <summary>base version for data framework</summary>
-        internal const string DS_BaseVersion = "Ver0";
+        internal const string DS_BaseVersion = VersionConstants.ReleaseVersion;
 
         /// <summary>where to find desktop reference client sku reference assemblies</summary>
         internal const string DotNetFrameworkV4_ClientReferenceAssemblyPath = @"%ProgramFiles%\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Profile\Client";
@@ -62,7 +62,7 @@ internal static class DataFxAssemblyRef
         internal const string SilverlightV5_SdkClientReferenceAssemblyPath = @"%ProgramFiles%\Microsoft SDKs\Silverlight\v5.0\Libraries\Client";
         internal const string SilverlightV5_SdkServerReferenceAssemblyPath = @"%ProgramFiles%\Microsoft SDKs\Silverlight\v5.0\Libraries\Server";
 
-#if ASTORIA_LIGHT || SILVERLIGHT
+#if SILVERLIGHT // Needed by the legacy SL test projects in TFS builds
 
         /// <summary>where find executable binaries</summary>
         internal const string DE_InstallPath = DotNetFrameworkV4_InstallPath;
@@ -153,7 +153,7 @@ internal static class DataFxAssemblyRef
         internal const string SpatialCore = "Microsoft.Spatial.dll";
     }
 
-    internal const string DataFxAssemblyVersion = "0.0.0.0";
+    internal const string DataFxAssemblyVersion = VersionConstants.AssemblyVersion;
     internal const string FXAssemblyVersion = "4.0.0.0";
 
     internal const string EcmaPublicKey = "b77a5c561934e089";

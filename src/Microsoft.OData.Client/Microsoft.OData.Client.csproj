@@ -13,6 +13,7 @@
     <RootNamespace>System</RootNamespace>
     <ProjectGuid>{D1567C63-4A0D-4E18-A14E-79699B9BFFFF}</ProjectGuid>
     <EnableLocalization>true</EnableLocalization>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
   <!-- References -->
   <Import Project="..\Build.props" />
@@ -178,6 +179,7 @@
       <Link>ALinq\UriParser\SyntacticAst\UnaryOperatorToken.cs</Link>
     </Compile>
     <Compile Include="Annotation\AnnotationHelper.cs" />
+    <Compile Include="Annotation\InstanceAnnotationDictWeakKeyComparer.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="DataServiceActionQueryOfT.cs" />
     <Compile Include="ActionDescriptor.cs" />
@@ -231,6 +233,7 @@
     <Compile Include="Serialization\DataServiceClientRequestMessage.cs" />
     <Compile Include="UriEntityOperationParameter.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="WeakDictionary.cs" />
     <Compile Include="WritingEntityReferenceLinkArgs.cs" />
     <Compile Include="WritingEntryArgs.cs" />
     <Compile Include="WritingNavigationLinkArgs.cs" />

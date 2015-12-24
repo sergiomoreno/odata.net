@@ -63,7 +63,7 @@ namespace Microsoft.OData.Core.UriParser.Metadata
             if (!IsRelatedTo(parentType, childType))
             {
                 // If the parentType is an open property, parentType will be null and can't have an ODataFullName.
-                string parentTypeName = (parentType != null) ? parentType.ODataFullName() : "<null>";
+                string parentTypeName = (parentType != null) ? parentType.FullTypeName() : "<null>";
                 throw new ODataException(OData.Core.Strings.MetadataBinder_HierarchyNotFollowed(childType.FullTypeName(), parentTypeName));
             }
         }
@@ -149,7 +149,7 @@ namespace Microsoft.OData.Core.UriParser.Metadata
         }
 
         /// <summary>
-        /// Is this a valid binding type. i.e. is this an entity, entity colleciton, or complex type.
+        /// Is this a valid binding type. i.e. is this an entity, entity collection, or complex type.
         /// </summary>
         /// <param name="bindingType">the binding type</param>
         /// <returns>true if this binding type is valid</returns>

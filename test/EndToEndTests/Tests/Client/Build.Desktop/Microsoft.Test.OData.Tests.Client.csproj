@@ -103,6 +103,7 @@
     <Compile Include="AnnotationTests\InstanceAnnotationTests.cs" />
     <Compile Include="AsyncRequestTests\AsyncRequestTests.cs" />
     <Compile Include="ClientTests\ClientEntityDescripterTests.cs" />
+    <Compile Include="ClientTests\ClientOpenTypeUpdateTests.cs" />
     <Compile Include="ClientTests\ClientQueryTests.cs" />
     <Compile Include="ClientTests\ClientDeleteTests.cs" />
     <Compile Include="ClientWithoutTypeResolverTests\MismatchedClientModelWithoutTypeResolverTests.cs" />
@@ -111,10 +112,14 @@
     <Compile Include="CodeGenerationTests\CustomizeNamingTest.cs" />
     <Compile Include="CodeGenerationTests\T4DelayQueryTest.cs" />
     <Compile Include="EdmDateAndTimeOfDay\DateAndTimeOfDayCRUDTestings.cs" />
+    <Compile Include="ODataSimplifiedServiceTests\ODataSimplifiedServiceTests.cs" />
+    <Compile Include="QueryOptionTests\EntityReferenceLinkTests.cs" />
     <Compile Include="ModelReferenceTests\ModelReferenceClientTests.cs" />
     <Compile Include="ModelReferenceTests\ModelReferenceCUDTests.cs" />
     <Compile Include="ModelReferenceTests\ModelReferenceQueryTests.cs" />
+    <Compile Include="ODataWCFServiceTests\AbstractEntityTypeTests.cs" />
     <Compile Include="OperationTests\OperationClientTests.cs" />
+    <Compile Include="PayloadValueConverterTests\PayloadValueConverterTests.cs" />
     <Compile Include="PluggableFormatServiceTests\PluggableFormatServiceTests.cs" />
     <Compile Include="PropertyTrackingTests\ChangeTrackingTest.cs" />
     <Compile Include="CodeGenerationTests\T4OperationGenerationTests.cs" />

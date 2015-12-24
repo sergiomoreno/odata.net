@@ -28,7 +28,7 @@ namespace Microsoft.OData.Client
         private static readonly MethodInfo expandMethodInfo = typeof(DataServiceQuery<TElement>).GetMethod("Expand", new Type[] { typeof(string) });
 
         /// <summary>Method info for the generic version of the Expand method</summary>
-#if WINRT
+#if DNXCORE50
         private static readonly MethodInfo expandGenericMethodInfo = typeof(DataServiceQuery<TElement>).GetMethodWithGenericArgs("Expand", true /*isPublic*/, false /*isStatic*/, 1 /*genericArgCount*/);
 #else
         private static readonly MethodInfo expandGenericMethodInfo = (MethodInfo)typeof(DataServiceQuery<TElement>).GetMember("Expand*").Single(m => ((MethodInfo)m).GetGenericArguments().Count() == 1);
@@ -39,11 +39,6 @@ namespace Microsoft.OData.Client
 
         /// <summary>Linq Query Provider</summary>
         private readonly DataServiceQueryProvider queryProvider;
-
-        /// <summary>
-        /// The flag of whether this query is a function.
-        /// </summary>
-        private readonly bool isFunction;
 
         /// <summary>Uri, Projection, Version for translated query</summary>
         private QueryComponents queryComponents;
@@ -58,7 +53,7 @@ namespace Microsoft.OData.Client
         public DataServiceQuery(Expression expression, DataServiceQueryProvider provider)
             : this(expression, provider, true)
         {
-            this.isFunction = false;
+            this.IsFunction = false;
         }
 
         /// <summary>
@@ -76,7 +71,7 @@ namespace Microsoft.OData.Client
             this.queryExpression = expression;
             this.queryProvider = provider;
             this.IsComposable = isComposable;
-            this.isFunction = true;
+            this.IsFunction = true;
         }
 
         #region IQueryable implementation
@@ -128,6 +123,11 @@ namespace Microsoft.OData.Client
         /// Whether this query is composable
         /// </summary>
         public bool IsComposable { get; private set; }
+
+        /// <summary>
+        /// The flag of whether this query is a function.
+        /// </summary>
+        internal bool IsFunction { get; private set; }
 
         /// <summary>The ProjectionPlan for the request (if precompiled in a previous page).</summary>
         internal override ProjectionPlan Plan
@@ -205,7 +205,7 @@ namespace Microsoft.OData.Client
         /// <param name="state">User defined object used to transfer state between the start of the operation and the callback defined by <paramref name="callback" />.</param>
         public new IAsyncResult BeginExecute(AsyncCallback callback, object state)
         {
-            if (this.isFunction)
+            if (this.IsFunction)
             {
                 return this.Context.BeginExecute<TElement>(this.RequestUri, callback, state, XmlConstants.HttpMethodGet, false);
             }
@@ -228,7 +228,7 @@ namespace Microsoft.OData.Client
         /// <exception cref="T:Microsoft.OData.Client.DataServiceQueryException">When the data service returns an HTTP 404: Resource Not Found error.</exception>
         public new IEnumerable<TElement> EndExecute(IAsyncResult asyncResult)
         {
-            if (this.isFunction)
+            if (this.IsFunction)
             {
                 return this.Context.EndExecute<TElement>(asyncResult);
             }
@@ -249,14 +249,14 @@ namespace Microsoft.OData.Client
             return nextTask;
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
         /// <summary>Executes the query and returns the results as a collection that implements IEnumerable.Not supported by the WCF Data Services 5.0 client for Silverlight.</summary>
         /// <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1" /> in which TElement represents the type of the query results.</returns>
         /// <exception cref="T:Microsoft.OData.Client.DataServiceQueryException">When the data service returns an HTTP 404: Resource Not Found error.</exception>
         /// <exception cref="T:System.NotSupportedException">When during materialization an object is encountered in the input stream that cannot be deserialized to an instance of TElement.</exception>
         public new IEnumerable<TElement> Execute()
         {
-            if (this.isFunction)
+            if (this.IsFunction)
             {
                 return this.Context.Execute<TElement>(this.RequestUri, XmlConstants.HttpMethodGet, false);
             }
@@ -340,7 +340,7 @@ namespace Microsoft.OData.Client
 
         /// <summary>Executes the query and returns the results as a collection.</summary>
         /// <returns>A typed enumerator over the results in which TElement represents the type of the query results.</returns>
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
         public IEnumerator<TElement> GetEnumerator()
         {
             return this.Execute().GetEnumerator();
@@ -371,7 +371,7 @@ namespace Microsoft.OData.Client
         /// <returns>An enumerator over the query results.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-#if !ASTORIA_LIGHT && !PORTABLELIB // Synchronous methods not available
+#if !PORTABLELIB // Synchronous methods not available
             return this.GetEnumerator();
 #else
             throw Error.NotSupported();
@@ -388,7 +388,7 @@ namespace Microsoft.OData.Client
             return this.Translate();
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB
+#if !PORTABLELIB
         /// Synchronous methods not available
         /// <summary>
         /// Returns an IEnumerable from an Internet resource. 
@@ -460,7 +460,7 @@ namespace Microsoft.OData.Client
             }
         }
 
-#if !ASTORIA_LIGHT && !PORTABLELIB
+#if !PORTABLELIB
         /// Synchronous methods not available
         /// <summary>
         /// Returns an IEnumerable from an Internet resource. 
